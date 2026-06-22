@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -424,6 +425,15 @@
             </a>
         </div>
 
+        <!-- Charts Grid -->
+        <h3 class="section-title">📊 Analytics Dashboard</h3>
+        <div class="actions-grid" style="margin-bottom: 32px;">
+            <div class="action-card" style="display: block; width: 100%;">
+                <h4 style="margin-bottom: 16px; color: #f1f5f9;">Products by Category</h4>
+                <canvas id="productsChart" height="100"></canvas>
+            </div>
+        </div>
+
         <!-- Quick Actions -->
         <h3 class="section-title">⚡ Quick Access</h3>
         <div class="actions-grid">
@@ -515,5 +525,48 @@
             <p>Inventory Management System v1.0.0 — Spring Boot 3.4.2 | Java 21 | MySQL 8.0</p>
         </div>
     </main>
+
+    <!-- Chart Configuration -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const chartLabels = /*[[${chartLabels}]]*/ [];
+        const chartData = /*[[${chartData}]]*/ [];
+
+        if (chartLabels.length > 0) {
+            const ctx = document.getElementById('productsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Number of Products',
+                        data: chartData,
+                        backgroundColor: 'rgba(129, 140, 248, 0.6)',
+                        borderColor: 'rgba(129, 140, 248, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#94a3b8' },
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#e2e8f0' } }
+                    }
+                }
+            });
+        }
+        /*]]>*/
+    </script>
 </body>
 </html>

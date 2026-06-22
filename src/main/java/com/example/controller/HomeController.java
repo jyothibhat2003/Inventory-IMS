@@ -36,6 +36,11 @@ public class HomeController {
         return list;
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("appName", "Inventory Management System");
@@ -49,12 +54,28 @@ public class HomeController {
         long pricingCount = 0;
 
         try {
-            categoryCount = toList(categoryService.findAll()).size();
-            productCount = toList(productService.findAll()).size();
+            List<com.example.entity.Category> categoriesList = toList(categoryService.findAll());
+            categoryCount = categoriesList.size();
+            
+            List<com.example.entity.Product> productsList = toList(productService.findAll());
+            productCount = productsList.size();
+            
             stockCount = toList(stockService.findAll()).size();
             supplierCount = toList(supplierService.findAll()).size();
             invoiceCount = toList(invoiceService.findAll()).size();
             pricingCount = toList(pricingService.findAll()).size();
+
+            // Prepare chart data: Number of products per category
+            java.util.Map<String, Long> productsByCategory = productsList.stream()
+                .filter(p -> p.getCategory() != null)
+                .collect(java.util.stream.Collectors.groupingBy(
+                    p -> p.getCategory().getCategoryName(),
+                    java.util.stream.Collectors.counting()
+                ));
+            
+            model.addAttribute("chartLabels", productsByCategory.keySet());
+            model.addAttribute("chartData", productsByCategory.values());
+
         } catch (Exception e) {
             // Tables might not have data yet
         }
