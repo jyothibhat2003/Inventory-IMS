@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Inventory Management System",
+            "request": "launch",
+            "mainClass": "com.example.DataJpaApplication",
+            "projectName": "data-jpa",
+            "env": {
+                "DB_HOST": "localhost",
+                "DB_PORT": "3307",
+                "DB_NAME": "wv",
+                "DB_USER": "root",
+                "DB_PASS": "egxduvwz",
+                "SERVER_PORT": "8081"
+            },
+            "vmArgs": "-XX:+UseG1GC -Xmx512m"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        }
+    ]
+}
